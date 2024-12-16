@@ -1,9 +1,8 @@
-package com.example.ztptodo.user;
+package com.example.ztptodo.domain.user;
 
 
 
-import com.example.ztptodo.user.dto.UserDto;
-import lombok.AllArgsConstructor;
+import com.example.ztptodo.domain.user.dto.UserDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +30,9 @@ public class UserService {
     public Optional<UserDto> findCredentialsByName(String name) {
         return userRepository.findUserByUserName(name)
                 .map(UserMapper::map);
+    }
+
+    public Optional<User> findByUsername(String userName) {
+        return userRepository.findUserByUserName(userName);
     }
 }

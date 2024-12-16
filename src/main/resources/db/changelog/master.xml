@@ -6,4 +6,9 @@
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
     <include file="0001_create_table_user.xml" relativeToChangelogFile="true"/>
+    <include file="0002_create_table_category.xml" relativeToChangelogFile="true"/>
+    <include file="0003_create_table_task.xml" relativeToChangelogFile="true"/>
+    <include file="../testdata/test_data.sql" relativeToChangelogFile="true"/>
+
+
 </databaseChangeLog>

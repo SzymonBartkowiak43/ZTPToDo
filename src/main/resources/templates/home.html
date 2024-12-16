@@ -1,10 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - To-Do List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Beka</h1>
+<div class="container mt-5">
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">To-Do List</a>
+        <button type="button" class="btn btn-outline-danger" onclick="window.location.href='/logout'">Logout</button>
+    </nav>
+
+    <h2>Categories and Tasks List</h2>
+
+
+    <div class="mb-4">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTaskModal">Add Task</button>
+    </div>
+
+
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/home/addCategory" method="post">
+                        <div class="form-group">
+                            <label for="categoryName">Category Name</label>
+                            <input type="text" name="name" class="form-control" id="categoryName" placeholder="Enter category name" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTaskModalLabel">Add Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/home/addTask" method="post">
+                        <div class="form-group">
+                            <label for="taskTitle">Task Title</label>
+                            <input type="text" name="title" class="form-control" id="taskTitle" placeholder="Enter task title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDescription">Task Description</label>
+                            <input type="text" name="description" class="form-control" id="taskDescription" placeholder="Enter task description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskCategory">Choose Category</label>
+                            <select name="category.id" class="form-control" id="taskCategory" required>
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}">Category Name</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Task</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h3>New Tasks</h3>
+            <div class="list-group">
+                <div class="list-group-item" th:each="task : ${tasks}" th:if="${task.status.name() == 'NEW'}">
+                <div class="d-flex justify-content-between">
+                        <h5 class="mb-1" th:text="${task.title}">Task Title</h5>
+                        <button class="btn btn-sm btn-warning" th:onclick="'window.location.href=\'/home/updateTaskStatus/' + ${task.id} + '/IN_PROGRESS\''">Move to In Progress</button>
+                    </div>
+                    <p class="mb-1" th:text="${task.description}">Task Description</p>
+                    <small class="text-muted" th:text="'Category: ' + ${task.category.name}">Task Category</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3>In Progress Tasks</h3>
+            <div class="list-group">
+                <div class="list-group-item" th:each="task : ${tasks}" th:if="${task.status.name() == 'IN_PROGRESS'}">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-1" th:text="${task.title}">Task Title</h5>
+                        <button class="btn btn-sm btn-secondary" th:onclick="'window.location.href=\'/home/updateTaskStatus/' + ${task.id} + '/NEW\''">Move to New</button>
+                        <button class="btn btn-sm btn-info" th:onclick="'window.location.href=\'/home/updateTaskStatus/' + ${task.id} + '/COMPLETED\''">Move to Completed</button>
+                    </div>
+                    <p class="mb-1" th:text="${task.description}">Task Description</p>
+                    <small class="text-muted" th:text="'Category: ' + ${task.category.name}">Task Category</small>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-8">
+            <h3>Completed Tasks</h3>
+            <div class="list-group">
+                <div class="list-group-item" th:each="task : ${tasks}" th:if="${task.status.name() == 'COMPLETED'}">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-1" th:text="${task.title}">Task Title</h5>
+                        <button class="btn btn-sm btn-danger"
+                                th:onclick="'window.location.href=\'/home/deleteTask/' + ${task.id} + '\''">
+                            Delete
+                        </button>
+                    </div>
+                    <p class="mb-1" th:text="${task.description}">Task Description</p>
+                    <small class="text-muted" th:text="'Category: ' + ${task.category.name}">Task Category</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

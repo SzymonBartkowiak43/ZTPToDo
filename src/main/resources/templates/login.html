@@ -4,22 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h2>Login</h2>
+<div class="container mt-5">
+    <h2 class="text-center">Login</h2>
 
-<form action="/login" method="post">
-    <input type="text" name="username" placeholder="Username" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
+    <form action="#" th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username"  class="form-control" placeholder="UseName" required>
+        </div>
 
-    <div class="error" th:if="${error}">
-        <p th:text="${error}"></p>
-    </div>
+        <div class="form-group">
+            <label for="password">password</label>
+            <input id="password" name="password" type="password" class="form-control" placeholder="password" required>
+        </div>
 
-    <button type="submit">Login</button>
-</form>
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            Invalid username or password
+        </div>
 
-<p>You dont have account yet?? <a href="/register">Register</a></p>
+        <button type="submit" class="btn btn-primary btn-block">Login in</button>
+    </form>
+
+    <p class="text-center mt-3">You dont have account? <a href="/register">Register</a></p>
+</div>
+
 </body>
 </html>

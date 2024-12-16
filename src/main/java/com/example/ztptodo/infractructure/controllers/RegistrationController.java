@@ -1,8 +1,8 @@
-package com.example.ztptodo.controllers;
+package com.example.ztptodo.infractructure.controllers;
 
 
-import com.example.ztptodo.user.UserService;
-import com.example.ztptodo.user.dto.UserDto;
+import com.example.ztptodo.domain.user.UserService;
+import com.example.ztptodo.domain.user.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

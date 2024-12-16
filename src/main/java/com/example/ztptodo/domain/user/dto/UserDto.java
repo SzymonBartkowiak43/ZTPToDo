@@ -1,4 +1,4 @@
-package com.example.ztptodo.user.dto;
+package com.example.ztptodo.domain.user.dto;
 
 
 
